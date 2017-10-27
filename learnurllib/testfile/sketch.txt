@@ -1,0 +1,7 @@
+A:import os
+B:the_file = open("testfile//sketch.txt")
+C:the_file.
+(pause)
+D:hahaha:hehehe
+(pause)
+E:byebye
