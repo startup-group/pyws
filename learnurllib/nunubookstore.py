@@ -1,4 +1,5 @@
 import requests
+import re
 import bs4
 from bs4 import BeautifulSoup
 
@@ -38,11 +39,40 @@ def getInfoList(infoList, html):
         print(dd.text)
 
 def main():
-    url = "http://www.kanunu8.com/"
-    zuojiaList = []
-    html = getHtmlText(url)
-    getJingDianZuoJiaList(zuojiaList,html)
-    printList(zuojiaList,10)
+#    url = "http://www.kanunu8.com/"
+#    zuojiaList = []
+#    html = getHtmlText(url)
+#    getJingDianZuoJiaList(zuojiaList,html)
+#    printList(zuojiaList,10)
 #    getInfoList(uInfo,html)
+    url1 = "http://www.wuxiph.com/Info/GongGaoLan/Index.html"
+    url3 = "http://www.wuxihospital.com/NEWnew/YuanNaGongGao/Index.html"
+    url4 = "http://www.wxfuyou.com/new/Index.html"
+    url5 = "http://www.wxtcm.com/News/GongQiGongGao/Index.html"
+    try:
+        r = requests.get(url1)
+        r.raise_for_status()
+        r.encoding = r.apparent_encoding
+        soup = BeautifulSoup(r.text, "html.parser")
+        div = soup.find(attrs={'class':'right_bottom'})
+        dds = div.findChildren('dd')
+        for dd in dds:
+            print(dd.findChild('a').text + ' - ' + dd.findChild('span').text)
+    except:
+        return "Failed"
+#        for td in tds:
+#            print(td.findChild('a').text + ' - ' + dd.findChild('span').text)
 
-main()
+def secondhospital():
+    headers = {'user-agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/62.0.3202.94 Safari/537.36'}
+    url2 = "http://www.wx2h.com/news/ggindex/index.html"
+    r = requests.get(url2, headers = headers)
+    r.encoding = r.apparent_encoding
+    soup = BeautifulSoup(r.text, "html.parser")
+    print(soup.title.string)
+    ul = soup.select(".main-fr-box")
+    for u in ul:
+        aa = u.find_all("a")
+        for a in aa:
+            print(a.text, a.get("href"))
+secondhospital()
